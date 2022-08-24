@@ -1,0 +1,2156 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="1 LC_VCO PLL设计文档, Evan JavaScript Vehicle IC">
+    <meta name="description" content="硕士 | 计算机 | 新能源 | 模拟IC">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google-site-verification" content="pBWoGvVEP36FzzS4xIpoMejc5UKi3RKcxd9rWWcjiDg" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>1 LC_VCO PLL设计文档 | Evan</title>
+
+    <link rel="icon" type="image/jpeg" href="https://s1.ax1x.com/2020/05/17/YR20js.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?aaa6c944b0ed07922901d7fc571a171d";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+<meta name="generator" content="Hexo 5.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Evan" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://s1.ax1x.com/2020/05/17/YRWsYT.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Evan</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/census">
+          
+          <i class="fas fa-layer-group" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>统计</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/archives">
+          
+          <i class="fas fa-paper-plane" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>时轴</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/categories">
+          
+          <i class="fas fa-bookmark" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>分类</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags">
+          
+          <i class="fas fa-tag" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>标签</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-heartbeat" style="zoom: 0.6;"></i>
+      
+      <span>清单</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/List/music">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>音乐</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/List/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>相册</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/List/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>视频</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-envelope" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tools" class="waves-effect waves-light">
+      
+      <i class="fas fa-suitcase" style="zoom: 0.6;"></i>
+      
+      <span>百宝箱</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/Windows" class="waves-effect waves-light">
+      
+      <i class="fas fa-desktop" style="zoom: 0.6;"></i>
+      
+      <span>Windows</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-link" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://s1.ax1x.com/2020/05/17/YRWsYT.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Evan</div>
+        <div class="logo-desc">
+            
+            硕士 | 计算机 | 新能源 | 模拟IC
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-archive"></i>
+			
+			归档
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/census " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-layer-group" style="position: absolute;left:50px" ></i>
+			      
+		          <span>统计</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/archives " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-paper-plane" style="position: absolute;left:50px" ></i>
+			      
+		          <span>时轴</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/categories " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-bookmark" style="position: absolute;left:50px" ></i>
+			      
+		          <span>分类</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-tag" style="position: absolute;left:50px" ></i>
+			      
+		          <span>标签</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-heartbeat"></i>
+			
+			清单
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/List/music " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>音乐</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/List/galleries " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>相册</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/List/movies " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>视频</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-envelope"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tools" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-suitcase"></i>
+			
+			百宝箱
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/Windows" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-desktop"></i>
+			
+			Windows
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-link"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/LuckyZmj/" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/LuckyZmj/" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928014458.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">1 LC_VCO PLL设计文档</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        background-color: white;
+        width: 345px;
+        padding-left: 20px;
+        border-radius: 10px;
+        box-shadow: 0 10px 35px 2px rgba(0, 0, 0, .15), 0 5px 15px rgba(0, 0, 0, .07), 0 2px 5px -5px rgba(0, 0, 0, .1) !important;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+    
+    #toc-content {
+        height: calc(100vh - 300px);
+        overflow: scroll;
+
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+        bottom: 120px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-08-25
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2022-08-25
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    10 分
+                </div>
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="基于LC-VCO的锁相环设计"><a href="#基于LC-VCO的锁相环设计" class="headerlink" title="基于LC_VCO的锁相环设计"></a>基于LC_VCO的锁相环设计</h1><h2 id="1-PLL环路参数设计及仿真"><a href="#1-PLL环路参数设计及仿真" class="headerlink" title="1 PLL环路参数设计及仿真"></a>1 PLL环路参数设计及仿真</h2><h3 id="1-1-定指标"><a href="#1-1-定指标" class="headerlink" title="1.1 定指标"></a>1.1 定指标</h3><p>freq:5G<br>PN&lt;-100dbc/hz@1MHz  &lt;-75dbc/hz@10KHz </p>
+<p>已知：<br>1.fref：25M<br>2.cap&lt;800pF<br>3.pnx=-115; %crystal phase noise @1KHz offset</p>
+<h3 id="1-2-设计步骤"><a href="#1-2-设计步骤" class="headerlink" title="1.2 设计步骤"></a>1.2 设计步骤</h3><p>1、设计VCO，根据仿真结果，得出Kvco的值</p>
+<p>​      Kvco=67MHz</p>
+<p>2、根据fref与freq的比值，可得出N=200</p>
+<p>3、确定环路带宽的取值范围，再对环路带宽、总噪声、Icp进行折中考虑</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%B8%A6%E5%AE%BD%E5%85%AC%E5%BC%8F.png"></p>
+<p>假设线性模型近似成立，环路带宽不能超过参考频率的1/10~1/15；</p>
+<p>又因为锁定时间最好小于200us，根据锁定时间的公式：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E9%94%81%E5%AE%9A%E6%97%B6%E9%97%B4%E5%85%AC%E5%BC%8F.png"></p>
+<p>可以得到环路带宽的范围：20KHz~1.6MHz</p>
+<p>但若带小数分频时，带宽不能取太高，因为小数分频作用再div上，会恶化低频噪声，一般令带宽小于150KHz</p>
+<p>根据与噪声之间的折中，最终取带宽为150kHz，Icp为200uA, cap1为324pf，电阻R1为11.78k</p>
+<p>4、相位裕度计算</p>
+<p>环路滤波器传递函数如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E7%8E%AF%E8%B7%AF%E6%BB%A4%E6%B3%A2%E5%99%A8%E7%9A%84%E4%BC%A0%E9%80%92%E5%87%BD%E6%95%B0.png"></p>
+<p>伯德图如下:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E7%8E%AF%E8%B7%AF%E6%BB%A4%E6%B3%A2%E5%99%A8%E4%BC%AF%E5%BE%B7%E5%9B%BE.png"></p>
+<p>相位裕度是在环路带宽处，整个环路的相位变化距离-180°的大小，计算公式如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E7%9B%B8%E4%BD%8D%E8%A3%95%E5%BA%A6%E5%85%AC%E5%BC%8F.png"></p>
+<p>使其导数为0，可以得到最大相位裕度，表达式如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E6%9C%80%E5%A4%A7%E7%9B%B8%E4%BD%8D%E8%A3%95%E5%BA%A6%E5%85%AC%E5%BC%8F.png"></p>
+<p>其中，定义系数b=1+C1/C2，假设第三极点对环路稳定性影响小，则有：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E6%9C%80%E7%BB%88%E7%9B%B8%E4%BD%8D%E8%A3%95%E5%BA%A6%E8%BF%91%E4%BC%BC%E5%85%AC%E5%BC%8F.png"></p>
+<p>所以当电容值确定时，通过调节b的值，可以调节相位裕度的大小，这里b=34；</p>
+<p>相位裕度常取45~70，相位裕度太低系统不稳定，但太高会使得系统的瞬态响应时间越慢</p>
+<p>5、系统总噪声</p>
+<p>最终总噪声为-78.04dbc/hz(@10kHz) 、-104.5dbc/hz(@1MHz)、相位裕度为60.31°–满足设计指标</p>
+<h3 id="1-3-Matlab仿真结果"><a href="#1-3-Matlab仿真结果" class="headerlink" title="1.3 Matlab仿真结果"></a>1.3 Matlab仿真结果</h3><table>
+<thead>
+<tr>
+<th align="center">环路参数名称</th>
+<th align="center">设计指标</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">分频比N</td>
+<td align="center">200</td>
+</tr>
+<tr>
+<td align="center">相位裕度PM</td>
+<td align="center">60.31deg</td>
+</tr>
+<tr>
+<td align="center">环路带宽fc</td>
+<td align="center">150kHz</td>
+</tr>
+<tr>
+<td align="center">Icp</td>
+<td align="center">200uA</td>
+</tr>
+<tr>
+<td align="center">Kvco</td>
+<td align="center">1GHz</td>
+</tr>
+<tr>
+<td align="center">R1</td>
+<td align="center">11.78k</td>
+</tr>
+<tr>
+<td align="center">R3</td>
+<td align="center">5.89k</td>
+</tr>
+<tr>
+<td align="center">C1</td>
+<td align="center">324pf</td>
+</tr>
+<tr>
+<td align="center">C2</td>
+<td align="center">13.5pf</td>
+</tr>
+<tr>
+<td align="center">C3</td>
+<td align="center">6.75pf</td>
+</tr>
+<tr>
+<td align="center">零点位置fz</td>
+<td align="center">41.6kHz</td>
+</tr>
+<tr>
+<td align="center">极点位置fp2</td>
+<td align="center">667kHz</td>
+</tr>
+<tr>
+<td align="center">极点位置fp3</td>
+<td align="center">6MHz</td>
+</tr>
+<tr>
+<td align="center">参考频率</td>
+<td align="center">25MHz</td>
+</tr>
+<tr>
+<td align="center">输出频率</td>
+<td align="center">5GHz</td>
+</tr>
+<tr>
+<td align="center">总相位噪声@1MHz</td>
+<td align="center">-104.5dbc/Hz</td>
+</tr>
+</tbody></table>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/matlab-phase%20noise.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/matlab-phase%20margin.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/matlab-workspace.png"></p>
+<h3 id="1-4-PLL仿真结果"><a href="#1-4-PLL仿真结果" class="headerlink" title="1.4 PLL仿真结果"></a>1.4 PLL仿真结果</h3><h4 id="1-4-1-testbench"><a href="#1-4-1-testbench" class="headerlink" title="1.4.1 testbench"></a>1.4.1 testbench</h4><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/PLLtestbench.png"></p>
+<h4 id="1-4-2-仿真结果"><a href="#1-4-2-仿真结果" class="headerlink" title="1.4.2 仿真结果"></a>1.4.2 仿真结果</h4><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E7%AC%AC%E4%B8%80%E6%AC%A1tran%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C.png"></p>
+<h2 id="2-鉴频鉴相器设计（PFD）"><a href="#2-鉴频鉴相器设计（PFD）" class="headerlink" title="2 鉴频鉴相器设计（PFD）"></a>2 鉴频鉴相器设计（PFD）</h2><h3 id="2-1-指标"><a href="#2-1-指标" class="headerlink" title="2.1 指标"></a>2.1 指标</h3><p>power：1.8v<br>up和dn的mismatch: 10ps<br>pulse： 298.65ps</p>
+<h3 id="2-2-电路设计"><a href="#2-2-电路设计" class="headerlink" title="2.2 电路设计"></a>2.2 电路设计</h3><h4 id="2-2-1-DFF"><a href="#2-2-1-DFF" class="headerlink" title="2.2.1 DFF"></a>2.2.1 DFF</h4><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/DFF.png"></p>
+<h4 id="2-2-2-PFD-delay"><a href="#2-2-2-PFD-delay" class="headerlink" title="2.2.2 PFD_delay"></a>2.2.2 PFD_delay</h4><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/PFD_delay.png"></p>
+<h4 id="2-2-3-PFD"><a href="#2-2-3-PFD" class="headerlink" title="2.2.3 PFD"></a>2.2.3 PFD</h4><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/PFD.png"></p>
+<h3 id="2-3-仿真及调试"><a href="#2-3-仿真及调试" class="headerlink" title="2.3 仿真及调试"></a>2.3 仿真及调试</h3><h4 id="2-3-1-功能实现-tran-500ns"><a href="#2-3-1-功能实现-tran-500ns" class="headerlink" title="2.3.1 功能实现(tran 500ns)"></a>2.3.1 功能实现(tran 500ns)</h4><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/PFD-tesbench.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/PFD%E5%8A%9F%E8%83%BD%E6%97%B6%E5%BA%8F%E5%9B%BE.png"></p>
+<h4 id="2-3-2-调pulse"><a href="#2-3-2-调pulse" class="headerlink" title="2.3.2 调pulse"></a>2.3.2 调pulse</h4><p>主要通过调节PFD_delay的延迟时间</p>
+<p>作用是防止出现死区，当延迟时间过短的时候，还没来得及导通cp，up和down就同时被复位了</p>
+<p>但延迟时间也不能太久，时间越久，cp噪声影响越大</p>
+<p>因此一般设计：克服死区之后，在预留200ps的时间</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/pulse%E4%BB%BF%E7%9C%9F.png"></p>
+<h4 id="2-3-3-调mismatch"><a href="#2-3-3-调mismatch" class="headerlink" title="2.3.3 调mismatch"></a>2.3.3 调mismatch</h4><p>由于up和down信号分别控制cp里面的p管和n管，所以要将两种信号进行反相</p>
+<p>进行反相时，up和down信号经过不同级的inv，所以导致两种信号不能同时导通和关断</p>
+<p>为了解决这种问题，有两种方法：</p>
+<h6 id="方法1-加传输门"><a href="#方法1-加传输门" class="headerlink" title="方法1  加传输门"></a>方法1  加传输门</h6><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/mismatch%E4%BC%A0%E8%BE%93%E9%97%A8tesbench.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/mismatch%E4%BC%A0%E8%BE%93%E9%97%A8%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C1.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/mismatch%E4%BC%A0%E8%BE%93%E9%97%A8%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C2.png"></p>
+<h6 id="方法2-新方法"><a href="#方法2-新方法" class="headerlink" title="方法2 新方法"></a>方法2 新方法</h6><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/4.1-1.1-21.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/4.1-1.1-23.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/4.1-1.1-24.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/4.1-1.1-22.png"></p>
+<h2 id="3-电荷泵（CP）"><a href="#3-电荷泵（CP）" class="headerlink" title="3 电荷泵（CP）"></a>3 电荷泵（CP）</h2><h3 id="3-1-指标"><a href="#3-1-指标" class="headerlink" title="3.1 指标"></a>3.1 指标</h3><p>输出电流可调：50uA、100uA、150uA、200uA</p>
+<p>镜像电流不准的原因：</p>
+<h3 id="3-2-电路设计"><a href="#3-2-电路设计" class="headerlink" title="3.2 电路设计"></a>3.2 电路设计</h3><h4 id="3-2-1-CP电路结构"><a href="#3-2-1-CP电路结构" class="headerlink" title="3.2.1 CP电路结构"></a>3.2.1 CP电路结构</h4><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/cp.png"></p>
+<p>1 时序失配问题</p>
+<p>时序失配：也就是up与dn信号不能同时开或关，解决方式见PFD；</p>
+<p>2 时钟馈通问题</p>
+<p>由于开关MOS管的栅极和漏极之间会形成寄生电容，up与down信号在进行高低电平切换时，通过寄生电容耦合引起Vctrl发生抖动，这就是时钟馈通现象；</p>
+<p>解决方法：将开关放在源极可以解决时钟馈通；</p>
+<p>3 电荷注入问题</p>
+<p>开关MOS导通时，由于沟道中存在电荷，故关断时，电荷会由沟道注入到输出节点（Vctrl）中，这就是电荷注入；</p>
+<p>解决方法：将开关管放在源极可以解决电荷注入；</p>
+<p>4 漏电流问题</p>
+<p>漏电流，也就是开关关不断电流源，由于漏电流的存在，使得有小电流对滤波器进行持续放电，导致Vctrl缓慢下降，从而导致环路产生相位差，此时充电时间大于放电时间，当Vctrl被再次拉高，Vctrl就会产生周期性抖动；最终使得CP噪声非常大；</p>
+<p>解决方法：外加上拉和下拉开关管；</p>
+<p>5 电荷共享问题</p>
+<p>即电流源管的漏极寄生电容对电荷的分流过程，造成系统相位误差，引起Vctrl纹波的产生；</p>
+<p>解决方法：外加上拉和下拉开关；加运放；</p>
+<p>6 电流源失配</p>
+<p>上下两条电流支路IUP和IDN存在差异，两条支路同时导通时，存在微小的输出电流ΔI</p>
+<p>解决方法：加运放，使得上下左右电流均相等；</p>
+<p>​                   增大电流源管的尺寸，降低沟长调制效应；</p>
+<p>​                   使用cascode结构，增大电流源内部阻抗；</p>
+<p>运放选择：</p>
+<p>此运放设计的关键是运放的带宽和增益的选取；</p>
+<p>运放在这个电路中实现的是电压跟随功能</p>
+<p>——-运放增益越大，跟随精度越高；                          </p>
+<p>——-运放带宽决定了运放正输入端电压可以多块跟随上运放负输入端电压的变化；</p>
+<p>——-根据经验表明，运放的单位增益带宽只要大于十倍的环路带宽即可；</p>
+<p>由于该电路输出节点Vctrl的变化趋势，必须覆盖0.3-1.5V，所以运放选择了rail-to-rail结构；</p>
+<h4 id="3-2-2-输出可控电路"><a href="#3-2-2-输出可控电路" class="headerlink" title="3.2.2 输出可控电路"></a>3.2.2 输出可控电路</h4><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/CP%E6%80%BB.png">通过开关以及译码器，设计开关电路，一共四路，最左边长通，右边三条电路有开关控制，每增加一条通路，输出Icp电流则增加50uA，最终实现控制Icp输出分别可达到：50uA、100uA、150uA、200uA.</p>
+<table>
+<thead>
+<tr>
+<th align="center">cp-Icp</th>
+<th align="center">b1 b2 b3</th>
+<th align="center">Icp(uA)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">00</td>
+<td align="center">000</td>
+<td align="center">50</td>
+</tr>
+<tr>
+<td align="center">01</td>
+<td align="center">001</td>
+<td align="center">100</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">011</td>
+<td align="center">150</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">111</td>
+<td align="center">200</td>
+</tr>
+</tbody></table>
+<p>对于本PLL设计来说，Icp取200uA，则令另外三路呈关闭 (即 使得cp_Icp为1 1 ) 状态即可</p>
+<h3 id="3-3-仿真-200uA"><a href="#3-3-仿真-200uA" class="headerlink" title="3.3 仿真(200uA)"></a>3.3 仿真(200uA)</h3><p>本次pll用到200uA的Icp，所以在这里只放了在200uA时的仿真结果。</p>
+<h4 id="3-3-1-stb"><a href="#3-3-1-stb" class="headerlink" title="3.3.1 stb"></a>3.3.1 stb</h4><p>加iprob:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/stb_testbench.png"></p>
+<p>CP的带宽可以比环路带宽大十倍左右，环路带宽大多数小于5<del>10M，射频中的环路带宽（LC-VCO）约采用100</del>200KHz，（ring-VCO）约采用500K~1MHz。本次采用lc_vco的pll带宽为150kHz, 所以此处CP的带宽可以做到10M左右。负载电容改为5pF.</p>
+<p>仿真结果如下：</p>
+<p>可知，相位裕度为67.04deg，判断系统稳定；</p>
+<p>带宽为10.78MHz；</p>
+<p>增益为34.37db.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/stb%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C.png"></p>
+<h4 id="3-3-2-mismatch"><a href="#3-3-2-mismatch" class="headerlink" title="3.3.2 mismatch"></a>3.3.2 mismatch</h4><h6 id="dc-mismatch"><a href="#dc-mismatch" class="headerlink" title="dc mismatch"></a><strong>dc mismatch</strong></h6><p>testbench如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/dc_mismatch_testbench.png"></p>
+<p>存电流仿真点：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/dc_mismatch%E5%AD%98%E7%82%B9.png"></p>
+<p>仿真结果：</p>
+<p>下面的绿色线为上面两条线的差值，由仿真结果可看到，在0.3V-1.5V内的dc mismatch小于 1.32uA/54uA=0.024</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/dc_mismatch%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C.png"></p>
+<h6 id="tran-mismatch"><a href="#tran-mismatch" class="headerlink" title="tran mismatch"></a><strong>tran mismatch</strong></h6><p>teshbench</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/tran_mismatch_testbench.png"></p>
+<p>存仿真电流点</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/tran_mismatch%E5%AD%98%E7%82%B9.png"></p>
+<p>仿真结果（电流mismatch）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/tran_mismatch%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C1.png"></p>
+<p>仿真结果（电压mismatch）</p>
+<p>台阶高度越小，表示mismatch越小。</p>
+<p>由仿真结果可以看到mismatch=50.86ns-50.48ns=0.38ns</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/tran_mismatch%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C2.png"></p>
+<h4 id="3-3-3-output-noise"><a href="#3-3-3-output-noise" class="headerlink" title="3.3.3 output noise"></a>3.3.3 output noise</h4><p>testbench</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/noise_testbench.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/pss+pnoise.png"></p>
+<p>output noise仿真结果</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/noise%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C.png"></p>
+<h2 id="4-环路滤波器（LPF）"><a href="#4-环路滤波器（LPF）" class="headerlink" title="4 环路滤波器（LPF）"></a>4 环路滤波器（LPF）</h2><h3 id="4-1-电路结构设计"><a href="#4-1-电路结构设计" class="headerlink" title="4.1 电路结构设计"></a>4.1 电路结构设计</h3><h4 id="4-1-1-电容倍乘技术"><a href="#4-1-1-电容倍乘技术" class="headerlink" title="4.1.1 电容倍乘技术"></a>4.1.1 电容倍乘技术</h4><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E7%94%B5%E5%AE%B9%E5%80%8D%E4%B9%98%E6%8A%80%E6%9C%AF.png"></p>
+<p>电容倍乘技术：增大电阻，缩小电容，可以大大节省版图面积；</p>
+<p>X的选择需要折中考虑：太大，使得噪声变大；太小，达不到倍乘效果。</p>
+<p>​                                         综合考虑：X取18；</p>
+<h4 id="4-1-2-三阶环路滤波器电路"><a href="#4-1-2-三阶环路滤波器电路" class="headerlink" title="4.1.2 三阶环路滤波器电路"></a>4.1.2 三阶环路滤波器电路</h4><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/LF.png"></p>
+<h2 id="5-电感电容压控振荡器（LC-VCO）"><a href="#5-电感电容压控振荡器（LC-VCO）" class="headerlink" title="5 电感电容压控振荡器（LC_VCO）"></a>5 电感电容压控振荡器（LC_VCO）</h2><h3 id="5-1-电路结构设计"><a href="#5-1-电路结构设计" class="headerlink" title="5.1 电路结构设计"></a>5.1 电路结构设计</h3><h4 id="5-1-1-设计思路"><a href="#5-1-1-设计思路" class="headerlink" title="5.1.1 设计思路"></a>5.1.1 设计思路</h4><p>根据仿真，先确定电感和总电容的大小，之后分别确定可变电容、开关电容、固定电容的大小；</p>
+<p>画出电路结构，根据起振条件，仿真出gm的大小；</p>
+<p>做pss+pnoise的仿真，可以得出其Kvco以及噪声的大小，根据仿真结果对其进行优化</p>
+<h6 id="电感取值及仿真"><a href="#电感取值及仿真" class="headerlink" title="电感取值及仿真"></a>电感取值及仿真</h6><p>lc_vco设计的核心是取电感L和电容C的值，但需要折中考虑：L值越大，功耗越大，但噪声小；C越大，功耗小，但噪声大；根据经验，一般取f *<em>L=5，再根据 w=1/根号下（L</em> *C），可以确定C的值。（f为vco输出频率）</p>
+<p>本次LC_VCO需要5GHz的输出频率，根据经验公式，可以取电感值为1H左右；</p>
+<p>在这个工艺库里面由于只有理想电感，这里通过在理想电感中加电阻的方式，来模拟工艺中的电感；</p>
+<p>电感取值如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E7%94%B5%E6%84%9F%E5%8F%96%E5%80%BC.png"></p>
+<p>取好电感值后，对电感进行Q值和L值仿真，看在5GHz下的Q值和L值。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E7%94%B5%E6%84%9FQ%E5%80%BC%E5%85%AC%E5%BC%8F.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E7%94%B5%E6%84%9FQ%E5%92%8CL%E5%80%BC%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C.png"></p>
+<h6 id="电容取值及仿真"><a href="#电容取值及仿真" class="headerlink" title="电容取值及仿真"></a>电容取值及仿真</h6><p>可以先拿理想电容来仿，看在5GHz下总共需要多大电容，然后再做电容值分配；</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E7%94%B5%E5%AE%B9%E5%80%BC%E4%BB%BF%E7%9C%9Ftestbenh.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E7%94%B5%E5%AE%B9%E5%80%BC%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C.png"></p>
+<h6 id="可变电容仿真"><a href="#可变电容仿真" class="headerlink" title="可变电容仿真"></a>可变电容仿真</h6><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%8F%AF%E5%8F%98%E7%94%B5%E5%AE%B9%E4%BB%BF%E7%9C%9Ftestbench.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%8F%AF%E5%8F%98%E7%94%B5%E5%AE%B9%E4%BB%BF%E7%9C%9F.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%8F%AF%E5%8F%98%E7%94%B5%E5%AE%B9%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%8F%AF%E5%8F%98%E7%94%B5%E5%AE%B9%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C2.png"></p>
+<h6 id="开关电容仿真"><a href="#开关电容仿真" class="headerlink" title="开关电容仿真"></a>开关电容仿真</h6><p>开关电容电路：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%BC%80%E5%85%B3%E7%94%B5%E5%AE%B9%E7%94%B5%E8%B7%AF.png"></p>
+<p>testbench:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%BC%80%E5%85%B3%E7%94%B5%E5%AE%B9tesbench.png"></p>
+<p>sp仿真+开关电容容值公式：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%BC%80%E5%85%B3%E7%94%B5%E5%AE%B9sp%E4%BB%BF%E7%9C%9F.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%BC%80%E5%85%B3%E7%94%B5%E5%AE%B9%E5%AE%B9%E5%80%BC%E4%BB%BF%E7%9C%9F%E5%85%AC%E5%BC%8F.png"></p>
+<p>开关电容容值仿真结果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%BC%80%E5%85%B3%E7%94%B5%E5%AE%B9%E5%AE%B9%E5%80%BC%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C.png"></p>
+<p>开关电容覆盖范围仿真</p>
+<p>看一下开关电容的覆盖范围：分别仿真开关电容的band全开和全关状态下的sp(z11)频点<br>仿真：ss<br>半开半关：&lt;*4&gt;h,&lt;*4&gt;l                     5.24-4.75=0.49,也就是说在ss下，开关电容的覆盖范围约为490MHz</p>
+<p>根据仿真结果可以看出，开关电容可以覆盖住5G</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%BC%80%E5%85%B3%E7%94%B5%E5%AE%B9band%E5%85%A8%E5%BC%80.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E5%BC%80%E5%85%B3%E7%94%B5%E5%AE%B9band%E5%85%A8%E5%85%B3.png"></p>
+<h6 id="起振条件仿真及分析"><a href="#起振条件仿真及分析" class="headerlink" title="起振条件仿真及分析"></a>起振条件仿真及分析</h6><p>用LC_VCO结构仿真起振条件（负阻用交叉耦合对管）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/%E8%B5%B7%E6%8C%AF%E6%9D%A1%E4%BB%B6%E4%BB%BF%E7%9C%9F.png"></p>
+<p>做ss仿真，由结果可知：f=5Ghz时，R=518Ω</p>
+<p>根据公式可以计算出gm的值：<img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/gm%E7%9A%84%E5%80%BC.png"></p>
+<p>知道gm的值后，可以设计交叉耦合对管的尺寸，之后再仿真其gm，看是否达到计算值；</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/LC_VCO%E8%B5%B7%E6%8C%AF%E6%9D%A1%E4%BB%B6%E4%BB%BF%E7%9C%9F%E7%94%B5%E8%B7%AF%E7%BB%93%E6%9E%84.png"></p>
+<p>搭完电路之后，进行dc仿真，看工作点是否正常；<br>打开窗口查看gm的值，如果比计算值大，可以通过减小尺寸或者减小输入电流，来使得gm减小。</p>
+<h6 id="噪声优化方法"><a href="#噪声优化方法" class="headerlink" title="噪声优化方法"></a>噪声优化方法</h6><p>相位噪声与电压摆幅有关，电压摆幅越大，相位噪声越好。电压摆幅与管子尺寸也有关，所以调节管子的尺寸，可以调相位噪声。仿真结果表明，管子尺寸调的越大，其热噪声会变大，电流变小，摆幅变小，使得相位噪声更差。</p>
+<p>通过noise仿真，可以看到每个 管子的噪声贡献，从而进一步去针对性的优化每个管子的1/f噪声和热噪声，优化的过程需要不断迭代，去找这两个噪声的平衡点，从而使总噪声减小。</p>
+<h4 id="5-1-2-结构"><a href="#5-1-2-结构" class="headerlink" title="5.1.2 结构"></a>5.1.2 结构</h4><p>最终采用cascode电流源结构</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/vco%E7%BB%93%E6%9E%84.png"></p>
+<h3 id="5-2-仿真"><a href="#5-2-仿真" class="headerlink" title="5.2 仿真"></a>5.2 仿真</h3><h4 id="5-2-1-kvco"><a href="#5-2-1-kvco" class="headerlink" title="5.2.1 kvco"></a>5.2.1 kvco</h4><p>根据仿真结果，可以计算kvco约为67MHz;</p>
+<p>最终拟合的KVCO为356MHz。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/kvco%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C.png"></p>
+<h4 id="5-2-2-phase-noise"><a href="#5-2-2-phase-noise" class="headerlink" title="5.2.2 phase noise"></a>5.2.2 phase noise</h4><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/LC_VCOnoise.png"></p>
+<h2 id="6-多模分频器（DIV）"><a href="#6-多模分频器（DIV）" class="headerlink" title="6 多模分频器（DIV）"></a>6 多模分频器（DIV）</h2><h3 id="6-1-多模分频器设计"><a href="#6-1-多模分频器设计" class="headerlink" title="6.1 多模分频器设计"></a>6.1 多模分频器设计</h3><p>多模分频器，可以进行8~255倍频。</p>
+<p>电路如下：</p>
+<p>PLL_DIV_FBK</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/pll_div_fbk.png"></p>
+<p>PLL_MMD_8_255</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/pll_mmd_8-255.png"></p>
+<p>PLL_DFF2</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/pll_dff2.png"></p>
+<p>PLL_DIV_2_3</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/pll2-3div.png"></p>
+<p>PLL_LATCH</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/pll_latch.png"></p>
+<h3 id="6-2-testbench"><a href="#6-2-testbench" class="headerlink" title="6.2 testbench"></a>6.2 testbench</h3><p>由于这个pll的输出频率为5G，所以需要仿真一下，看这个分频器在5G下是否能正常工作；</p>
+<p>本pll需要进行一个200倍频，由5G到25M，则给div的逻辑为  11001000  。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/testbench.png"></p>
+<h3 id="6-3仿真结果"><a href="#6-3仿真结果" class="headerlink" title="6.3仿真结果"></a>6.3仿真结果</h3><p>根据仿真结果可知，本多模分频器可以在频率为5G时正常工作。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/6cebd0ce.htm/%E6%A1%8C%E9%9D%A2%E6%96%87%E4%BB%B6/%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F/LC_VCO/1-LC-VCO-PLL%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/div%E5%8A%9F%E8%83%BD%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9Ctran.png"></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Evan</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://evanzhangli.github.io/posts/6cebd0ce.html">https://evanzhangli.github.io/posts/6cebd0ce.html</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Evan</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="qq,qzone,wechat,weibo,twitter,facebook,google,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/null" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/null" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    .v[data-class="v"] .vwrap .vheader .vinput {
+      width: 32%;
+      border-bottom: 1px dashed #dedede;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+let metaPlaceholder = {"nick":"昵称/QQ号(必填)","mail":"邮箱(必填)","link":"网址(https://)"} ;
+//这里要换行
+new Valine({
+        el: '#vcomments',
+        appId: 'Ucrxxxxxxxxxxxxxxxx-xxxxsz',
+        appKey: 'zPsLxxxxxxxxxxxxxxerLmd',
+        notify: 'true' === 'true',
+        verify: 'true' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'monsterid',
+        pageSize: '10',
+        lang: 'zh-CN',
+        placeholder: '留下你的足迹..',
+        meta: ["nick", "mail", "link"],
+        recordIP: 'true' === 'true',
+        enableQQ: 'monsterid',
+        requiredFields: ["46606772953bed0812789d6dc955614e"],
+        master: ["46606772953bed0812789d6dc955614e"],
+        friends: ["cb3e577ff029d6073400d5557effd41f", ""],
+        tagMeta: ["博主", "小伙伴", "访客"],
+        metaPlaceholder: metaPlaceholder,
+
+    });
+
+    document.body.addEventListener('click', function(e) {
+        if (e.target.classList.contains('vsubmit')) {
+            const email = document.querySelector('input[type=email]');
+            const nick = document.querySelector('input[name=nick]');
+            const reg = /^[A-Za-z0-9_-\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+            if (!email.value || !nick.value || !reg.test(email.value)) {
+                const str = `<div class="valert txt-center"><div class="vtext">请填写正确的昵称和邮箱！</div></div>`;
+                const vmark = document.querySelector('.vmark');
+                vmark.innerHTML = str;
+                vmark.style.display = 'block';
+
+                e.stopPropagation();
+
+                setTimeout(function() {
+                    vmark.style.display = 'none';
+                    vmark.innerHTML = '';
+                }, 2500);
+            }
+        }
+        }, true);
+</script>
+
+
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/posts/6cebd0ce.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928014458.jpg" class="responsive-img" alt="1 LC_VCO PLL设计文档">
+                        
+                        <span class="card-title">1 LC_VCO PLL设计文档</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Evan
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/posts/4a17b156.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015642.jpg" class="responsive-img" alt="Hello World">
+                        
+                        <span class="card-title">Hello World</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Evan
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: Evan<br />'
+            + '文章作者: Evan<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="tencent"
+                   type="playlist"
+                   id="3468508435"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2022</span>
+            
+            <span id="year">2022</span>
+            <a href="/about" target="_blank">Evan</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">19.2k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2022";
+                    var startMonth = "8";
+                    var startDate = "25";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+            <span id="icp"><img src="/medias/icp.png" style="vertical-align: text-bottom;" />
+                <a href="http://www.beian.miit.gov.cn/" target="_blank">闽ICP备xxxxxxx号-1</a>
+            </span>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/LuckyZmj/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:16463223@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=16463223" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 16463223" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="6788560391" class="tooltipped" target="_blank" data-tooltip="关注我的微博: 6788560391" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.11/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?aaa6c944b0ed07922901d7fc571a171d";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+<!-- 深色模式按钮 -->
+    <script>
+        if (localStorage.getItem('dark') === '1') {
+        document.body.classList.add('dark');
+        }
+        else if (new Date().getHours() >= 22 || new Date().getHours() < 7) {
+        document.body.classList.add('dark');
+        } 
+        else if (matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+        }
+    </script>
+    <a onclick="switchNightMode()" id="sma">
+        <i class="fas fa-lightbulb" id="nightMode" aria-hidden="true"></i>
+    </a>
+
+    <!-- 天气接口控件   -->
+    
+        <script type="text/javascript">
+        WIDGET = {FID: 'zLkJSQpqsh'}
+        </script>
+    <!-- <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script> -->
+
+    <script type="text/javascript">
+      var windowWidth = $(window).width();
+      if (windowWidth > 768) {
+          document.write('<script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"><\/script>');
+      }
+    </script>
+    
+
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "4xxxxxxxe"
+        });
+        daovoice('update');
+    </script>
+    
+
+	
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"left","width":200,"height":400},"mobile":{"show":true},"react":{"opacityDefault":1,"opacityOnHover":1},"log":false,"tagMode":false});</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+
+</html>
