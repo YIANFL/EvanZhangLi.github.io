@@ -6,7 +6,7 @@
   <link href="https://evanzhangli.github.io/atom.xml" rel="self"/>
   
   <link href="https://evanzhangli.github.io/"/>
-  <updated>2022-08-25T13:49:16.298Z</updated>
+  <updated>2022-08-25T17:06:51.277Z</updated>
   <id>https://evanzhangli.github.io/</id>
   
   <author>
@@ -17,13 +17,13 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>test</title>
-    <link href="https://evanzhangli.github.io/posts/d87f7e0c.html"/>
-    <id>https://evanzhangli.github.io/posts/d87f7e0c.html</id>
-    <published>2022-08-25T13:42:09.000Z</published>
-    <updated>2022-08-25T13:49:16.298Z</updated>
+    <title>Test</title>
+    <link href="https://evanzhangli.github.io/posts/784dd132.html"/>
+    <id>https://evanzhangli.github.io/posts/784dd132.html</id>
+    <published>2022-08-25T17:05:20.000Z</published>
+    <updated>2022-08-25T17:06:51.277Z</updated>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h1><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/cp.png"></p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/posts/d87f7e0c/cp.png" class="" title="This is an image"> <p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fp3.itc.cn%2Fimages01%2F20211005%2F4b88d16427634e3b92947f7b7614c01e.jpeg&amp;refer=http%3A%2F%2Fp3.itc.cn&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=auto?sec=1664027325&amp;t=b51fb763b7ec991e353af05a6fd668ec"></p>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://raw.githubusercontent.com/EvanZhangLi/Images/main/cp.png"></p>]]></content>
     
     
       
